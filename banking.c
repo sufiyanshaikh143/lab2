@@ -2,21 +2,26 @@
 
 int main(){
     int balance = 1000;
-    int transactions[] = {200,-150,-500,-400,-50,-200,-300};
-    int no_of_transactions = *(&transactions + 1) - transactions;
+    int transactions[] = {200, -150, -500, -400, -50, -200, 300};
+    int no_of_transactions = sizeof(transactions) / sizeof(transactions[0]);  
     int tobeprocessed[100];
     int tobeprocessed_count = 0;
-    for (int i = 0; i < no_of_transactions ; i++) {
+
+    for (int i = 0; i < no_of_transactions; i++) {
         int transaction = transactions[i];
-        if (transactions < 0 && -transaction > balance) {
-            printf("Transaction %d is invalid (not enough money).\n", transactions);
-            tobeprocessed[tobeprocessed_count++] = transactions;  
+        
+        if (transaction < 0 && -transaction > balance) {
+            printf("Transaction %d is invalid (not enough money).\n", transaction);
+            tobeprocessed[tobeprocessed_count++] = transaction;
             continue;
+        }
+
         balance += transaction;
 
+        // Stop processing further transactions if balance becomes zero
         if (balance == 0) {
             printf("No transactions will be processed from now.\n");
-            tobeprocessed[tobeprocessed_count++] = transactions;  
+            tobeprocessed[tobeprocessed_count++] = transaction;  
             break;  
         }
     }
@@ -29,4 +34,3 @@ int main(){
     printf("\n");
 
     return 0;
-}
